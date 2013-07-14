@@ -22,39 +22,37 @@
 
 package org.missiledefense;
 
-import hermes.World;
+import hermes.Being;
+import hermes.hshape.Rectangle;
 import processing.core.PApplet;
 import processing.core.PImage;
-
-import java.awt.*;
-
 /**
  * User: andrew
- * Date: 7/13/13
- * Time: 6:52 PM
+ * Date: 7/14/13
+ * Time: 4:08 PM
  */
-class GameWorld extends World {
+public class Ufo extends Being {
+
+    private static final int WIDTH = 102;
+    private static final int HEIGHT = 38;
+
     private final PApplet parent;
-    private final PImage background;
+    private final PImage sprite;
 
-    GameWorld(PApplet parent, int portIn, int portOut) {
-        super(portIn, portOut);
+    public Ufo(PApplet parent, int x, int y) {
+        super(new Rectangle(x, y, WIDTH, HEIGHT));
+
         this.parent = parent;
-
-        background = parent.loadImage("tower_4.png");
+        this.sprite = parent.loadImage("ufo_pr.png");
     }
 
     @Override
-    public void setup() {
-
-        Dimension size = parent.getSize();
-        register(new Ufo(parent, size.width / 2, 50));
-        register(new Missile(parent, size.width / 2, size.height));
+    protected void update() {
+        super.update();
     }
 
     @Override
     public void draw() {
-        parent.image(background, 0, 0);
-        super.draw();
+        parent.image(sprite, 0, 0, WIDTH, HEIGHT);
     }
 }
