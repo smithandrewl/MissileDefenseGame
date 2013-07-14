@@ -34,7 +34,7 @@ import processing.core.PImage;
  */
 class Missile extends Being{
 
-    private static final int WIDTH = 25;
+    private static final int WIDTH = 19;
     private static final int HEIGHT = 49;
     private final PApplet parent;
     private final PImage sprite;
