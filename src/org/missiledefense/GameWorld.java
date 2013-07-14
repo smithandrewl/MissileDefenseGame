@@ -22,9 +22,9 @@
 
 package org.missiledefense;
 
-
 import hermes.World;
 import processing.core.PApplet;
+import processing.core.PImage;
 
 import java.awt.*;
 
@@ -35,22 +35,25 @@ import java.awt.*;
  */
 class GameWorld extends World {
     private final PApplet parent;
+    private final PImage background;
 
     GameWorld(PApplet parent, int portIn, int portOut) {
         super(portIn, portOut);
-
         this.parent = parent;
+
+        background = parent.loadImage("tower_4.png");
     }
 
     @Override
     public void setup() {
+
         Dimension size = parent.getSize();
-        register(new Missile(parent, size.width / 2, size.height / 2));
+        register(new Missile(parent, size.width / 2, size.height));
     }
 
     @Override
     public void draw() {
-        parent.background(0);
+        parent.image(background, 0, 0);
         super.draw();
     }
 }
