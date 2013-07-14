@@ -33,8 +33,8 @@ import processing.core.PApplet;
  */
 public class Main extends PApplet {
 
-    private static final int WINDOW_WIDTH = 800;
-    private static final int WINDOW_HEIGHT = 600;
+    private static final int WINDOW_WIDTH = 1024;
+    private static final int WINDOW_HEIGHT = 768;
 
     private static final int PORT_IN = 8080;
     private static final int PORT_OUT = 8000;
