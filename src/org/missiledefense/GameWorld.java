@@ -22,39 +22,35 @@
 
 package org.missiledefense;
 
-import hermes.Hermes;
+
 import hermes.World;
 import processing.core.PApplet;
 
+import java.awt.*;
+
 /**
  * User: andrew
- * Date: 7/11/13
- * Time: 3:30 PM
+ * Date: 7/13/13
+ * Time: 6:52 PM
  */
-public class Main extends PApplet {
+class GameWorld extends World {
+    private final PApplet parent;
 
-    private static final int WINDOW_WIDTH = 800;
-    private static final int WINDOW_HEIGHT = 600;
+    GameWorld(PApplet parent, int portIn, int portOut) {
+        super(portIn, portOut);
 
-    private static final int PORT_IN = 8080;
-    private static final int PORT_OUT = 8000;
-    private World currentWorld;
+        this.parent = parent;
+    }
 
     @Override
     public void setup() {
-        super.setup();
-
-        size(WINDOW_WIDTH, WINDOW_HEIGHT);
-        Hermes.setPApplet(this);
-
-        currentWorld = new GameWorld(this, PORT_IN, PORT_OUT);
-        currentWorld.setup();
-        currentWorld.start();
-
+        Dimension size = parent.getSize();
+        register(new Missile(parent, size.width / 2, size.height / 2));
     }
 
     @Override
     public void draw() {
-        currentWorld.draw();
+        parent.background(0);
+        super.draw();
     }
 }

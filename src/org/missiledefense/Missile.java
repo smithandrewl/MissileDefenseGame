@@ -22,39 +22,42 @@
 
 package org.missiledefense;
 
-import hermes.Hermes;
-import hermes.World;
+import hermes.Being;
+import hermes.hshape.Rectangle;
 import processing.core.PApplet;
+import processing.core.PImage;
 
 /**
  * User: andrew
- * Date: 7/11/13
- * Time: 3:30 PM
+ * Date: 7/13/13
+ * Time: 7:02 PM
  */
-public class Main extends PApplet {
+class Missile extends Being{
 
-    private static final int WINDOW_WIDTH = 800;
-    private static final int WINDOW_HEIGHT = 600;
+    private static final int WIDTH = 25;
+    private static final int HEIGHT = 49;
+    private final PApplet parent;
+    private final PImage sprite;
 
-    private static final int PORT_IN = 8080;
-    private static final int PORT_OUT = 8000;
-    private World currentWorld;
+    private final int _color;
+
+    public Missile(PApplet parent, int x, int y) {
+        super(new Rectangle(x, y, WIDTH, HEIGHT));
+
+        _color = parent.color(0);
+        this.parent = parent;
+        sprite = parent.loadImage("missile.png");
+    }
 
     @Override
-    public void setup() {
-        super.setup();
-
-        size(WINDOW_WIDTH, WINDOW_HEIGHT);
-        Hermes.setPApplet(this);
-
-        currentWorld = new GameWorld(this, PORT_IN, PORT_OUT);
-        currentWorld.setup();
-        currentWorld.start();
-
+    protected void update() {
     }
 
     @Override
     public void draw() {
-        currentWorld.draw();
+        parent.fill(_color);
+        parent.stroke(255);
+        _shape.draw();
+        parent.image(sprite, 0, 0, WIDTH, HEIGHT);
     }
 }
