@@ -39,12 +39,9 @@ class Missile extends Being{
     private final PApplet parent;
     private final PImage sprite;
 
-    private final int _color;
-
     public Missile(PApplet parent, int x, int y) {
         super(new Rectangle(x, y, WIDTH, HEIGHT));
 
-        _color = parent.color(0);
         this.parent = parent;
         sprite = parent.loadImage("missile.png");
     }
@@ -55,9 +52,6 @@ class Missile extends Being{
 
     @Override
     public void draw() {
-        parent.fill(_color);
-        parent.stroke(255);
-        _shape.draw();
         parent.image(sprite, 0, 0, WIDTH, HEIGHT);
     }
 }
