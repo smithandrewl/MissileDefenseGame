@@ -22,17 +22,18 @@
 
 package org.missiledefense;
 
-import hermes.Being;
 import hermes.hshape.Rectangle;
+import hermes.physics.MassedBeing;
 import processing.core.PApplet;
 import processing.core.PImage;
+import processing.core.PVector;
 
 /**
  * User: andrew
  * Date: 7/13/13
  * Time: 7:02 PM
  */
-class Missile extends Being{
+class Missile extends MassedBeing{
 
     private static final int WIDTH = 19;
     private static final int HEIGHT = 49;
@@ -40,7 +41,7 @@ class Missile extends Being{
     private final PImage sprite;
 
     public Missile(PApplet parent, int x, int y) {
-        super(new Rectangle(x, y, WIDTH, HEIGHT));
+        super(new Rectangle(x, y, WIDTH, HEIGHT), new PVector(0, 0), 10, 10);
 
         this.parent = parent;
         sprite = parent.loadImage("missile.png");

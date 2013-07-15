@@ -22,16 +22,18 @@
 
 package org.missiledefense;
 
-import hermes.Being;
 import hermes.hshape.Rectangle;
+import hermes.physics.MassedBeing;
 import processing.core.PApplet;
 import processing.core.PImage;
+import processing.core.PVector;
+
 /**
  * User: andrew
  * Date: 7/14/13
  * Time: 4:08 PM
  */
-public class Ufo extends Being {
+public class Ufo extends MassedBeing {
 
     private static final int WIDTH = 102;
     private static final int HEIGHT = 38;
@@ -40,7 +42,7 @@ public class Ufo extends Being {
     private final PImage sprite;
 
     public Ufo(PApplet parent, int x, int y) {
-        super(new Rectangle(x, y, WIDTH, HEIGHT));
+        super(new Rectangle(x, y, WIDTH, HEIGHT), new PVector(0, 0), 10, 10);
 
         this.parent = parent;
         this.sprite = parent.loadImage("ufo_pr.png");
