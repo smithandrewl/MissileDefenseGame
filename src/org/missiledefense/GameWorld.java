@@ -47,6 +47,8 @@ class GameWorld extends World {
         ufos = new UfoGroup(this, parent);
 
         background = parent.loadImage("tower_4.png");
+
+        register(missiles, ufos, new MissileUfoInteractor());
     }
 
     @Override

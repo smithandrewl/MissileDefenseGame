@@ -22,37 +22,29 @@
 
 package org.missiledefense;
 
-import hermes.hshape.Rectangle;
-import hermes.physics.MassedBeing;
-import processing.core.PApplet;
-import processing.core.PImage;
-import processing.core.PVector;
+import hermes.Interactor;
+import hermes.hshape.HShape;
 
 /**
  * User: andrew
- * Date: 7/13/13
- * Time: 7:02 PM
+ * Date: 7/15/13
+ * Time: 6:51 PM
  */
-class Missile extends MassedBeing{
-
-    private static final int WIDTH = 19;
-    private static final int HEIGHT = 49;
-    private final PApplet parent;
-    private final PImage sprite;
-
-    public Missile(PApplet parent, int x, int y) {
-        super(new Rectangle(x, y, WIDTH, HEIGHT), new PVector(0, -200), 10, 10);
-
-        this.parent = parent;
-        sprite = parent.loadImage("missile.png");
+public class MissileUfoInteractor extends Interactor<Missile, Ufo> {
+    MissileUfoInteractor() {
+        super();
     }
 
     @Override
-    protected void update() {
+    public boolean detect(Missile missile, Ufo ufo) {
+        final HShape missileShape = missile.getShape();
+        final HShape ufoShape = ufo.getShape();
+
+        return missileShape.collide(ufoShape);
     }
 
     @Override
-    public void draw() {
-        parent.image(sprite, 0, 0, WIDTH, HEIGHT);
+    public void handle(Missile missile, Ufo ufo) {
+        ufo.setVelocityX(800);
     }
 }
