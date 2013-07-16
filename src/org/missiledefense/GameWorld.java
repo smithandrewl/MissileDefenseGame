@@ -36,6 +36,7 @@ import java.awt.*;
 class GameWorld extends World {
     private final PApplet parent;
     private final PImage background;
+    private final PImage silo;
     private final MissileGroup missiles;
     private final UfoGroup ufos;
 
@@ -47,7 +48,7 @@ class GameWorld extends World {
         ufos = new UfoGroup(this, parent);
 
         background = parent.loadImage("tower_4.png");
-
+        silo = parent.loadImage("silo.png");
         register(missiles, ufos, new MissileUfoInteractor());
     }
 
@@ -57,12 +58,13 @@ class GameWorld extends World {
         Dimension size = parent.getSize();
 
         ufos.addUfo(size.width / 2, 50);
-        missiles.addMissile(size.width / 2, size.height);
+        missiles.addMissile((size.width / 2) + 51, size.height);
     }
 
     @Override
     public void draw() {
         parent.image(background, 0, 0);
         super.draw();
+        parent.image(silo, 0, 0);
     }
 }

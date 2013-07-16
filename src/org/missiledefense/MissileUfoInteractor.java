@@ -45,6 +45,6 @@ public class MissileUfoInteractor extends Interactor<Missile, Ufo> {
 
     @Override
     public void handle(Missile missile, Ufo ufo) {
-        ufo.setVelocityX(800);
+        ufo.setVelocityX(1600);
     }
 }

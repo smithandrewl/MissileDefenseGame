@@ -41,7 +41,7 @@ class Missile extends MassedBeing{
     private final PImage sprite;
 
     public Missile(PApplet parent, int x, int y) {
-        super(new Rectangle(x, y, WIDTH, HEIGHT), new PVector(0, -200), 10, 10);
+        super(new Rectangle(x, y, WIDTH, HEIGHT), new PVector(0, -400), 10, 10);
 
         this.parent = parent;
         sprite = parent.loadImage("missile.png");
