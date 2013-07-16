@@ -22,45 +22,32 @@
 
 package org.missiledefense;
 
+import hermes.Group;
 import hermes.World;
 import processing.core.PApplet;
-import processing.core.PImage;
-
-import java.awt.*;
 
 /**
  * User: andrew
- * Date: 7/13/13
- * Time: 6:52 PM
+ * Date: 7/15/13
+ * Time: 6:43 PM
  */
-class GameWorld extends World {
+public class UfoGroup extends Group<Ufo> {
     private final PApplet parent;
-    private final PImage background;
-    private final MissileGroup missiles;
-    private final UfoGroup ufos;
 
-    GameWorld(PApplet parent, int portIn, int portOut) {
-        super(portIn, portOut);
+    UfoGroup(World w, PApplet parent) {
+        super(w);
+
         this.parent = parent;
-
-        missiles = new MissileGroup(this, parent);
-        ufos = new UfoGroup(this, parent);
-
-        background = parent.loadImage("tower_4.png");
     }
 
     @Override
-    public void setup() {
-
-        Dimension size = parent.getSize();
-
-        ufos.addUfo(size.width / 2, 50);
-        missiles.addMissile(size.width / 2, size.height);
+    public void update() {
     }
 
-    @Override
-    public void draw() {
-        parent.image(background, 0, 0);
-        super.draw();
+    public void addUfo(int x, int y) {
+        Ufo ufo = new Ufo(parent, x, y);
+
+        _world.register(ufo);
+        add(ufo);
     }
 }
