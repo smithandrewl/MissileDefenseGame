@@ -30,7 +30,7 @@ import hermes.hshape.HShape;
  * Date: 7/15/13
  * Time: 6:51 PM
  */
-public class MissileUfoInteractor extends Interactor<Missile, Ufo> {
+class MissileUfoInteractor extends Interactor<Missile, Ufo> {
     MissileUfoInteractor() {
         super();
     }

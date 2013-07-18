@@ -32,7 +32,7 @@ import processing.core.PVector;
  * Date: 7/15/13
  * Time: 5:43 PM
  */
-public class MissileGroup extends Group<Missile> {
+class MissileGroup extends Group<Missile> {
     private final PApplet parent;
 
     MissileGroup(World w, PApplet parent) {

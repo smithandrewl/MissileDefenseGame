@@ -31,7 +31,7 @@ import processing.core.PApplet;
  * Date: 7/15/13
  * Time: 6:43 PM
  */
-public class UfoGroup extends Group<Ufo> {
+class UfoGroup extends Group<Ufo> {
     private final PApplet parent;
 
     UfoGroup(World w, PApplet parent) {
