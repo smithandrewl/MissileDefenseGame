@@ -39,7 +39,7 @@ class Missile extends MassedBeing{
 
     private static final int   WIDTH  = 19;
     private static final int   HEIGHT = 49;
-    public  static final float SCALE  = 1.0f;
+    private static final float SCALE  = 1.0f;
 
     private final PApplet parent;
     private final PImage  sprite;
