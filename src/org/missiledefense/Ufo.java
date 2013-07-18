@@ -49,11 +49,6 @@ public class Ufo extends MassedBeing {
     }
 
     @Override
-    protected void update() {
-        super.update();
-    }
-
-    @Override
     public void draw() {
         parent.image(sprite, 0, 0, WIDTH, HEIGHT);
     }
