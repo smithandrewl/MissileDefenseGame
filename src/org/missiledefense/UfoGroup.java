@@ -44,10 +44,12 @@ public class UfoGroup extends Group<Ufo> {
     public void update() {
     }
 
-    public void addUfo(int x, int y) {
+    public Ufo addUfo(int x, int y) {
         Ufo ufo = new Ufo(parent, x, y);
 
         _world.register(ufo);
         add(ufo);
+
+        return ufo;
     }
 }
