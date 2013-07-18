@@ -28,6 +28,8 @@ import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PVector;
 
+import static java.lang.Math.*;
+
 /**
  * User: andrew
  * Date: 7/13/13
@@ -35,20 +37,39 @@ import processing.core.PVector;
  */
 class Missile extends MassedBeing{
 
-    private static final int WIDTH = 19;
-    private static final int HEIGHT = 49;
-    private final PApplet parent;
-    private final PImage sprite;
+    private static final int   WIDTH  = 19;
+    private static final int   HEIGHT = 49;
+    public  static final float SCALE  = 1.0f;
 
-    public Missile(PApplet parent, int x, int y) {
-        super(new Rectangle(x, y, WIDTH, HEIGHT), new PVector(0, -400), 10, 10);
+    private final PApplet parent;
+    private final PImage  sprite;
+    private final PVector target;
+    private float angle;
+
+    public Missile(PApplet parent, int x, int y, PVector target) {
+        super(new Rectangle(x, y, WIDTH, HEIGHT), new PVector(0, 0), 10, 10);
 
         this.parent = parent;
+        this.target = target;
+        this.angle  = 0;
+
         sprite = parent.loadImage("missile.png");
     }
 
     @Override
     protected void update() {
+       // Get a vector from missile to target
+       PVector vec = new PVector(target.x - getX(), target.y - getY());
+
+       // Get the angle(in degrees) of  the current vector and the target vector
+       angle = (float) atan2(vec.y, vec.x);
+
+       // Amount to change the velocity by to be on course to the target
+       PVector correction = new PVector((float) cos(angle), (float) sin(angle));
+
+       // Update the velocity with the correction
+       setVelocityX((getVelocityX() + correction.x) * SCALE);
+       setVelocityY((getVelocityY() + correction.y) * SCALE);
     }
 
     @Override

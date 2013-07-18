@@ -25,6 +25,7 @@ package org.missiledefense;
 import hermes.Group;
 import hermes.World;
 import processing.core.PApplet;
+import processing.core.PVector;
 
 /**
  * User: andrew
@@ -44,8 +45,8 @@ public class MissileGroup extends Group<Missile> {
     public void update() {
     }
 
-    public void addMissile(int x, int y) {
-        Missile missile = new Missile(parent, x, y);
+    public void addMissile(int x, int y, PVector target) {
+        Missile missile = new Missile(parent, x, y, target);
 
         _world.register(missile);
         add(missile);

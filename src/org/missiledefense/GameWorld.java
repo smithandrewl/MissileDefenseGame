@@ -57,8 +57,8 @@ class GameWorld extends World {
 
         Dimension size = parent.getSize();
 
-        ufos.addUfo(size.width / 2, 50);
-        missiles.addMissile((size.width / 2) + 51, size.height);
+        Ufo ufo = ufos.addUfo(50, 50);
+        missiles.addMissile((size.width / 2) + 51, size.height, ufo.getPosition());
     }
 
     @Override
