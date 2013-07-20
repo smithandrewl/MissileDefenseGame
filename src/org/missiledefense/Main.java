@@ -33,11 +33,12 @@ import processing.core.PApplet;
  */
 public class Main extends PApplet {
 
-    private static final int WINDOW_WIDTH = 1024;
+    private static final int WINDOW_WIDTH  = 1024;
     private static final int WINDOW_HEIGHT = 768;
 
-    private static final int PORT_IN = 8080;
+    private static final int PORT_IN  = 8080;
     private static final int PORT_OUT = 8000;
+
     private World currentWorld;
 
     @Override
@@ -50,7 +51,6 @@ public class Main extends PApplet {
         currentWorld = new GameWorld(this, PORT_IN, PORT_OUT);
         currentWorld.setup();
         currentWorld.start();
-
     }
 
     @Override

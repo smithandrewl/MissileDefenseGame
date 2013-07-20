@@ -23,10 +23,9 @@
 package org.missiledefense;
 
 import hermes.World;
+import hermes.postoffice.POCodes;
 import processing.core.PApplet;
 import processing.core.PImage;
-
-import java.awt.*;
 
 /**
  * User: andrew
@@ -45,20 +44,20 @@ class GameWorld extends World {
         this.parent = parent;
 
         missiles = new MissileGroup(this, parent);
-        ufos = new UfoGroup(this, parent);
+        ufos     = new UfoGroup(this, parent);
 
         background = parent.loadImage("tower_4.png");
-        silo = parent.loadImage("silo.png");
-        register(missiles, ufos, new MissileUfoInteractor());
+        silo       = parent.loadImage("silo.png");
+
+        register(missiles, ufos, new MissileUfoInteractor(this));
+        register(missiles);
+        register(ufos);
     }
 
     @Override
     public void setup() {
-
-        Dimension size = parent.getSize();
-
-        Ufo ufo = ufos.addUfo(50, 50);
-        missiles.addMissile((size.width / 2) + 51, size.height, ufo.getPosition());
+        ufos.addUfo(50, 50);
+        subscribe(missiles, POCodes.Button.LEFT);
     }
 
     @Override

@@ -23,6 +23,7 @@
 package org.missiledefense;
 
 import hermes.Interactor;
+import hermes.World;
 import hermes.hshape.HShape;
 
 /**
@@ -31,20 +32,28 @@ import hermes.hshape.HShape;
  * Time: 6:51 PM
  */
 class MissileUfoInteractor extends Interactor<Missile, Ufo> {
-    MissileUfoInteractor() {
+    private final World world;
+
+    MissileUfoInteractor(World world) {
         super();
+
+        this.world = world;
     }
 
     @Override
     public boolean detect(Missile missile, Ufo ufo) {
         final HShape missileShape = missile.getShape();
-        final HShape ufoShape = ufo.getShape();
+        final HShape ufoShape     = ufo.getShape();
 
         return missileShape.collide(ufoShape);
     }
 
     @Override
     public void handle(Missile missile, Ufo ufo) {
+        // Ufo flees off-screen after impact
         ufo.setVelocityX(1600);
+
+        // Delete missile after impact
+        world.delete(missile);
     }
 }

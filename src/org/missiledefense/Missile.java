@@ -43,33 +43,43 @@ class Missile extends MassedBeing{
 
     private final PApplet parent;
     private final PImage  sprite;
-    private final PVector target;
-    private float angle;
 
-    public Missile(PApplet parent, int x, int y, PVector target) {
+    private PVector target;
+    private boolean launched;
+    private float   angle;
+
+    public Missile(PApplet parent, int x, int y) {
         super(new Rectangle(x, y, WIDTH, HEIGHT), new PVector(0, 0), 10, 10);
 
         this.parent = parent;
-        this.target = target;
-        this.angle  = 0;
-
+        this.target = null;
+        
         sprite = parent.loadImage("missile.png");
+    }
+
+    public void launch(PVector target) {
+        launched    = true;
+        this.target = target;
     }
 
     @Override
     protected void update() {
-       // Get a vector from missile to target
-       PVector vec = new PVector(target.x - getX(), target.y - getY());
+       float acceleration = 1.025f;
 
-       // Get the angle(in degrees) of  the current vector and the target vector
-       angle = (float) atan2(vec.y, vec.x);
+       if(launched) {
+           // Get a vector from missile to target
+           PVector vec = new PVector(target.x - getX(), target.y - getY());
 
-       // Amount to change the velocity by to be on course to the target
-       PVector correction = new PVector((float) cos(angle), (float) sin(angle));
+           // Get the angle(in degrees) of  the current vector and the target vector
+           angle = (float) atan2(vec.y, vec.x);
 
-       // Update the velocity with the correction
-       setVelocityX((getVelocityX() + correction.x) * SCALE);
-       setVelocityY((getVelocityY() + correction.y) * SCALE);
+           // Amount to change the velocity by to be on course to the target
+           PVector correction = new PVector((float) cos(angle), (float) sin(angle));
+
+           // Update the velocity with the correction
+           setVelocityX(((getVelocityX() + correction.x) * acceleration) * SCALE);
+           setVelocityY(((getVelocityY() + correction.y) * acceleration) * SCALE);
+       }
     }
 
     @Override

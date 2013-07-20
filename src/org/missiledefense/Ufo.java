@@ -34,8 +34,7 @@ import processing.core.PVector;
  * Time: 4:08 PM
  */
 public class Ufo extends MassedBeing {
-
-    private static final int WIDTH = 102;
+    private static final int WIDTH  = 102;
     private static final int HEIGHT = 38;
 
     private final PApplet parent;

@@ -24,8 +24,12 @@ package org.missiledefense;
 
 import hermes.Group;
 import hermes.World;
+import hermes.postoffice.MouseMessage;
+import hermes.postoffice.POCodes;
 import processing.core.PApplet;
 import processing.core.PVector;
+
+import java.awt.*;
 
 /**
  * User: andrew
@@ -33,22 +37,48 @@ import processing.core.PVector;
  * Time: 5:43 PM
  */
 class MissileGroup extends Group<Missile> {
-    private final PApplet parent;
+    private final PApplet   parent;
+    private final Dimension screenSize;
 
     MissileGroup(World w, PApplet parent) {
         super(w);
 
         this.parent = parent;
+        screenSize  = parent.getSize();
     }
 
     @Override
     public void update() {
+        for(Missile missile : getObjects()) {
+            PVector position = missile.getPosition();
+
+            boolean offScreen = (position.x > screenSize.getWidth())
+                             || (position.y > screenSize.getHeight())
+                             || (position.x < 0)
+                             || (position.y < 0);
+
+            if(offScreen) {
+                _world.delete(missile);
+            }
+        }
     }
 
-    public void addMissile(int x, int y, PVector target) {
-        Missile missile = new Missile(parent, x, y, target);
+    Missile addMissile(int x, int y) {
+        Missile missile = new Missile(parent, x, y);
 
         _world.register(missile);
         add(missile);
+
+        return missile;
+    }
+
+    @Override
+    public void receive(MouseMessage m) {
+       if(m.getAction() == POCodes.Click.RELEASED) {
+           Dimension size  = parent.getSize();
+           Missile missile = addMissile((size.width / 2) + 51, size.height);
+
+           missile.launch(new PVector(m.getX(), m.getY()));
+       }
     }
 }
