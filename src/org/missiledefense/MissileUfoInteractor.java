@@ -36,11 +36,10 @@ import processing.core.PApplet;
 class MissileUfoInteractor extends Interactor<Missile, Ufo> {
     private final GameWorld   world;
     private final AudioPlayer player;
-    private final PApplet     parent;
+
     MissileUfoInteractor(GameWorld world, PApplet parent) {
         super();
 
-        this.parent = parent;
         Minim minim = new Minim(parent);
         this.world = world;
         player = minim.loadFile("rlaunch.wav");

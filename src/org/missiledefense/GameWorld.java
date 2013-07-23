@@ -44,7 +44,7 @@ class GameWorld extends World {
     private int   hits;
     private int   launches;
 
-    public int getHits() {
+    int getHits() {
         return hits;
     }
 
@@ -52,11 +52,11 @@ class GameWorld extends World {
         hits++;
     }
 
-    public int getScore() {
+    int getScore() {
         return hits * 10;
     }
 
-    public int getLaunches() {
+    int getLaunches() {
         return launches;
     }
 
