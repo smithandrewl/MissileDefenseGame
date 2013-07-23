@@ -23,7 +23,6 @@
 package org.missiledefense;
 
 import hermes.Interactor;
-import hermes.World;
 import hermes.hshape.HShape;
 
 /**
@@ -32,9 +31,9 @@ import hermes.hshape.HShape;
  * Time: 6:51 PM
  */
 class MissileUfoInteractor extends Interactor<Missile, Ufo> {
-    private final World world;
+    private final GameWorld world;
 
-    MissileUfoInteractor(World world) {
+    MissileUfoInteractor(GameWorld world) {
         super();
 
         this.world = world;
@@ -48,12 +47,21 @@ class MissileUfoInteractor extends Interactor<Missile, Ufo> {
         return missileShape.collide(ufoShape);
     }
 
+    // BUG: collision detection fires twice and causes the score to go up twice per actual collision
     @Override
     public void handle(Missile missile, Ufo ufo) {
-        // Ufo flees off-screen after impact
-        ufo.setVelocityX(1600);
+        synchronized (this){
+            if(!ufo.isHit()) {
+                // Delete missile after impact
+                world.delete(missile);
+                ufo.hit();
 
-        // Delete missile after impact
-        world.delete(missile);
+                // Ufo flees off-screen after impact
+                ufo.setVelocityX(1600);
+
+                // Increase the number of successful hits
+                world.newHit();
+            }
+        }
     }
 }

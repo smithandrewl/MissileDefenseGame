@@ -22,8 +22,9 @@
 
 package org.missiledefense;
 
+import ddf.minim.AudioPlayer;
+import ddf.minim.Minim;
 import hermes.Group;
-import hermes.World;
 import hermes.postoffice.MouseMessage;
 import hermes.postoffice.POCodes;
 import processing.core.PApplet;
@@ -37,14 +38,20 @@ import java.awt.*;
  * Time: 5:43 PM
  */
 class MissileGroup extends Group<Missile> {
-    private final PApplet   parent;
-    private final Dimension screenSize;
+    private final PApplet     parent;
+    private final Dimension   screenSize;
+    private final AudioPlayer player;
 
-    MissileGroup(World w, PApplet parent) {
+    private long lastLaunch;
+
+    MissileGroup(GameWorld w, PApplet parent) {
         super(w);
 
         this.parent = parent;
         screenSize  = parent.getSize();
+
+        Minim minim = new Minim(parent);
+        player = minim.loadFile("flaunch.wav");
     }
 
     @Override
@@ -74,11 +81,27 @@ class MissileGroup extends Group<Missile> {
 
     @Override
     public void receive(MouseMessage m) {
-       if(m.getAction() == POCodes.Click.RELEASED) {
-           Dimension size  = parent.getSize();
-           Missile missile = addMissile((size.width / 2) + 51, size.height);
 
-           missile.launch(new PVector(m.getX(), m.getY()));
+       long currentTime = System.currentTimeMillis();
+
+       // The amount of time since the last left mouse button release
+       long dt = currentTime - lastLaunch;
+
+       // To prevent a single event from firing 4 times (it does),
+       // ignore events within 100 milliseconds of each other.
+       if(dt > 100) {
+           if(m.getAction() == POCodes.Click.RELEASED) {
+               Dimension size  = parent.getSize();
+               Missile missile = addMissile((size.width / 2) + 51, size.height);
+
+               missile.launch(new PVector(m.getX(), m.getY()));
+               ((GameWorld)_world).newLaunch();
+
+               player.rewind();
+               player.play();
+
+               lastLaunch = currentTime;
+           }
        }
     }
 }

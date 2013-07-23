@@ -27,17 +27,55 @@ import hermes.postoffice.POCodes;
 import processing.core.PApplet;
 import processing.core.PImage;
 
+import java.text.MessageFormat;
+
 /**
  * User: andrew
  * Date: 7/13/13
  * Time: 6:52 PM
  */
 class GameWorld extends World {
-    private final PApplet parent;
-    private final PImage background;
-    private final PImage silo;
+    private final PApplet      parent;
+    private final PImage       background;
+    private final PImage       silo;
     private final MissileGroup missiles;
-    private final UfoGroup ufos;
+    private final UfoGroup     ufos;
+
+    private int   hits;
+    private int   launches;
+
+    public int getHits() {
+        return hits;
+    }
+
+    public void newHit() {
+        hits++;
+    }
+
+    public int getScore() {
+        return hits * 10;
+    }
+
+    public int getLaunches() {
+        return launches;
+    }
+
+    public void newLaunch() {
+        launches++;
+    }
+
+    double getAccuracy() {
+        //Convert to doubles for a cast-free division
+        double  hits        = this.hits;
+        double  launches    = this.launches;
+        boolean firstLaunch = launches == 0;
+
+        // return 0 if this is the first launch
+        // to avoid a divide by zero
+        if(firstLaunch) { return 0; }
+
+        return hits / launches;
+    }
 
     GameWorld(PApplet parent, int portIn, int portOut) {
         super(portIn, portOut);
@@ -65,5 +103,11 @@ class GameWorld extends World {
         parent.image(background, 0, 0);
         super.draw();
         parent.image(silo, 0, 0);
+
+        // Render the HUD
+        parent.text(String.format("Score: %s", getScore()), 10, 10);
+        parent.text(String.format("Launched: %s", getLaunches()), 10, 25);
+        parent.text(String.format("Accuracy: %s", MessageFormat.format("{0,number,#.##%}", getAccuracy())), 10, 40);
+        parent.text(String.format("Hits: %s", getHits()), 10, 55);
     }
 }
