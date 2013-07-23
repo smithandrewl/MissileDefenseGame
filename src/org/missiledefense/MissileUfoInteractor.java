@@ -22,8 +22,11 @@
 
 package org.missiledefense;
 
+import ddf.minim.AudioPlayer;
+import ddf.minim.Minim;
 import hermes.Interactor;
 import hermes.hshape.HShape;
+import processing.core.PApplet;
 
 /**
  * User: andrew
@@ -31,12 +34,16 @@ import hermes.hshape.HShape;
  * Time: 6:51 PM
  */
 class MissileUfoInteractor extends Interactor<Missile, Ufo> {
-    private final GameWorld world;
-
-    MissileUfoInteractor(GameWorld world) {
+    private final GameWorld   world;
+    private final AudioPlayer player;
+    private final PApplet     parent;
+    MissileUfoInteractor(GameWorld world, PApplet parent) {
         super();
 
+        this.parent = parent;
+        Minim minim = new Minim(parent);
         this.world = world;
+        player = minim.loadFile("rlaunch.wav");
     }
 
     @Override
@@ -50,18 +57,17 @@ class MissileUfoInteractor extends Interactor<Missile, Ufo> {
     // BUG: collision detection fires twice and causes the score to go up twice per actual collision
     @Override
     public void handle(Missile missile, Ufo ufo) {
-        synchronized (this){
-            if(!ufo.isHit()) {
-                // Delete missile after impact
-                world.delete(missile);
-                ufo.hit();
+        // Delete missile after impact
+        world.delete(missile);
+        ufo.hit();
 
-                // Ufo flees off-screen after impact
-                ufo.setVelocityX(1600);
+        // Ufo flees off-screen after impact
+        ufo.setVelocityX(1600);
 
-                // Increase the number of successful hits
-                world.newHit();
-            }
-        }
+        // Increase the number of successful hits
+        world.newHit();
+
+        player.rewind();
+        player.play();
     }
 }

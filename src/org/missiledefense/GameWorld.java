@@ -87,7 +87,7 @@ class GameWorld extends World {
         background = parent.loadImage("tower_4.png");
         silo       = parent.loadImage("silo.png");
 
-        register(missiles, ufos, new MissileUfoInteractor(this));
+        register(missiles, ufos, new MissileUfoInteractor(this, parent));
         register(missiles);
         register(ufos);
     }
