@@ -60,26 +60,21 @@ class Missile extends MassedBeing{
     public void launch(PVector target) {
         launched    = true;
         this.target = target;
-    }
 
-    @Override
-    protected void update() {
-       float acceleration = 1.025f;
+        float speed = 750;
 
-       if(launched) {
-           // Get a vector from missile to target
-           PVector vec = new PVector(target.x - getX(), target.y - getY());
+        // Get a vector from missile to target
+        PVector vec = new PVector(target.x - getX(), target.y - getY());
 
-           // Get the angle(in degrees) of  the current vector and the target vector
-           angle = (float) atan2(vec.y, vec.x);
+        // Get the angle(in degrees) of  the current vector and the target vector
+        angle = (float) atan2(vec.y, vec.x);
 
-           // Amount to change the velocity by to be on course to the target
-           PVector correction = new PVector((float) cos(angle), (float) sin(angle));
+        // Amount to change the velocity by to be on course to the target
+        PVector correction = new PVector((float) cos(angle), (float) sin(angle));
 
-           // Update the velocity with the correction
-           setVelocityX(((getVelocityX() + correction.x) * acceleration) * SCALE);
-           setVelocityY(((getVelocityY() + correction.y) * acceleration) * SCALE);
-       }
+        // Update the velocity with the correction
+        setVelocityX(correction.x * speed);
+        setVelocityY(correction.y * speed);
     }
 
     @Override
