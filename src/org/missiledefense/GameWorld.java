@@ -35,11 +35,12 @@ import java.text.MessageFormat;
  * Time: 6:52 PM
  */
 class GameWorld extends World {
-    private final PApplet      parent;
-    private final PImage       background;
-    private final PImage       silo;
-    private final MissileGroup missiles;
-    private final UfoGroup     ufos;
+    private final PApplet        parent;
+    private final PImage         background;
+    private final PImage         silo;
+    private final MissileGroup   missiles;
+    private final UfoGroup       ufos;
+    private final ExplosionGroup explosions;
 
     private int   hits;
     private int   launches;
@@ -81,8 +82,9 @@ class GameWorld extends World {
         super(portIn, portOut);
         this.parent = parent;
 
-        missiles = new MissileGroup(this, parent);
-        ufos     = new UfoGroup(this, parent);
+        missiles   = new MissileGroup(this, parent);
+        ufos       = new UfoGroup(this, parent);
+        explosions = new ExplosionGroup(this, parent);
 
         background = parent.loadImage("tower_4.png");
         silo       = parent.loadImage("silo.png");
@@ -90,11 +92,22 @@ class GameWorld extends World {
         register(missiles, ufos, new MissileUfoInteractor(this, parent));
         register(missiles);
         register(ufos);
+        register(explosions);
+    }
+
+    public Explosion addExplosion(float x, float y) {
+        return explosions.add(x, y);
     }
 
     @Override
     public void setup() {
         ufos.addUfo(50, 50);
+        ufos.addUfo(50, 150);
+        ufos.addUfo(150, 150);
+        ufos.addUfo(150, 300);
+        ufos.addUfo(300, 300);
+        ufos.addUfo(300, 450);
+
         subscribe(missiles, POCodes.Button.LEFT);
     }
 

@@ -22,53 +22,60 @@
 
 package org.missiledefense;
 
-import ddf.minim.AudioPlayer;
-import ddf.minim.Minim;
-import hermes.Interactor;
-import hermes.hshape.HShape;
+import hermes.Being;
+import hermes.animation.AnimatedSprite;
+import hermes.animation.Animation;
+import hermes.hshape.Rectangle;
 import processing.core.PApplet;
+import processing.core.PVector;
 
 /**
  * User: andrew
- * Date: 7/15/13
- * Time: 6:51 PM
+ * Date: 7/25/13
+ * Time: 4:33 PM
  */
-class MissileUfoInteractor extends Interactor<Missile, Ufo> {
-    private final GameWorld   world;
-    private final AudioPlayer player;
+public class Explosion extends Being {
+    private static int WIDTH    = 68;
+    private static int HEIGHT   = 95;
+    private static int LIFETIME = 1000;
 
-    MissileUfoInteractor(GameWorld world, PApplet parent) {
-        super();
+    private boolean expired;
+    private long created;
 
-        Minim minim = new Minim(parent);
-        this.world = world;
-        player = minim.loadFile("rlaunch.wav");
+    private final Animation      animation;
+    private final AnimatedSprite sprite;
+    private final PApplet        parent;
+
+    boolean isExpired() {
+        return expired;
+    }
+
+    public Explosion(PApplet parent, PVector location, Animation animation) {
+        super(new Rectangle(location.x, location.y, WIDTH, HEIGHT));
+
+        created = System.currentTimeMillis();
+
+        this.parent    = parent;
+        this.animation = animation;
+
+        sprite = new AnimatedSprite();
+        sprite.addAnimation(animation);
+        sprite.setActiveAnimation(0);
     }
 
     @Override
-    public boolean detect(Missile missile, Ufo ufo) {
-        final HShape missileShape = missile.getShape();
-        final HShape ufoShape     = ufo.getShape();
+    public void draw() {
+        super.draw();
 
-        return missileShape.collide(ufoShape);
+        if(!expired) {
+            parent.image(sprite.animate(), -(WIDTH / 2), -(HEIGHT / 2), WIDTH, HEIGHT);
+        }
     }
 
-    // BUG: collision detection fires twice and causes the score to go up twice per actual collision
     @Override
-    public void handle(Missile missile, Ufo ufo) {
+    protected void update() {
+        super.update();
 
-        world.addExplosion(missile.getX(), missile.getY());
-
-        // Delete missile after impact
-        world.delete(missile);
-
-        // Ufo flees off-screen after impact
-        ufo.setVelocityX(1600);
-
-        // Increase the number of successful hits
-        world.newHit();
-
-        player.rewind();
-        player.play();
+        expired = System.currentTimeMillis() - created > LIFETIME;
     }
 }
