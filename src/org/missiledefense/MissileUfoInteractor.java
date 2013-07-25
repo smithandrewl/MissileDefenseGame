@@ -58,7 +58,6 @@ class MissileUfoInteractor extends Interactor<Missile, Ufo> {
     public void handle(Missile missile, Ufo ufo) {
         // Delete missile after impact
         world.delete(missile);
-        ufo.hit();
 
         // Ufo flees off-screen after impact
         ufo.setVelocityX(1600);
