@@ -71,7 +71,7 @@ class MissileGroup extends Group<Missile> {
     }
 
     Missile addMissile(int x, int y) {
-        Missile missile = new Missile(parent, x, y);
+        Missile missile = new BasicMissile(parent, x, y);
 
         _world.register(missile);
         add(missile);

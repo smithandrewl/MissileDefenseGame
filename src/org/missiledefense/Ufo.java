@@ -38,22 +38,14 @@ public class Ufo extends MassedBeing {
     private static final int HEIGHT = 38;
 
     private final PApplet parent;
-    private final PImage sprite;
-    private boolean hit;
+    private final PImage  sprite;
 
     public Ufo(PApplet parent, int x, int y) {
-        super(new Rectangle(x, y, WIDTH, HEIGHT), new PVector(0, 0), 10, 10);
+        super(new Rectangle(x, y, WIDTH, HEIGHT),
+              new PVector(0, 0), 10, 10);
 
         this.parent = parent;
         this.sprite = parent.loadImage("ufo_pr.png");
-    }
-
-    public boolean isHit() {
-        return hit;
-    }
-
-    public void hit() {
-        hit = true;
     }
     @Override
     public void draw() {

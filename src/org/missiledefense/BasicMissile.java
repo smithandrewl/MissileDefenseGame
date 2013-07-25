@@ -22,59 +22,28 @@
 
 package org.missiledefense;
 
-import hermes.hshape.Rectangle;
-import hermes.physics.MassedBeing;
 import processing.core.PApplet;
-import processing.core.PImage;
 import processing.core.PVector;
-
-import static java.lang.Math.*;
 
 /**
  * User: andrew
  * Date: 7/13/13
  * Time: 7:02 PM
  */
-class Missile extends MassedBeing {
+class BasicMissile extends Missile {
 
-    private final PApplet parent;
-    private final PImage sprite;
-    private final int    speed;
+    private static final float  WIDTH       = 19;
+    private static final float  HEIGHT      = 49;
+    private static final int    SPEED       = 800;
+    private static final String MISSILE_PNG = "missile.png";
+    private static final int    MASS        = 1;
+    private static final int    ELASTICITY  = 1;
 
-    private PVector target;
-    private float   angle;
-
-    Missile(PApplet parent, PVector location, PVector size, PhysicsInfo physicsInfo, String imgPath)  {
-        super(new Rectangle(location.x, location.y, size.x, size.y),
-              physicsInfo.getInitVel(),
-              physicsInfo.getMass(),
-              physicsInfo.getElasticity());
-
-        speed       = physicsInfo.getSpeed();
-        this.parent = parent;
-        target      = null;
-        sprite      = parent.loadImage(imgPath);
-    }
-
-    public void launch(PVector target) {
-        this.target = target;
-
-        // Update the velocity with the correction
-        setVelocity(getUpdatedVector());
-    }
-
-    PVector getUpdatedVector() {
-        PVector targetVector = new PVector(target.x - getX(), target.y - getY());
-
-        // Get the angle(in degrees) of  the current vector and the target vector
-        angle = (float) atan2(targetVector.y, targetVector.x);
-
-        // Amount to change the velocity by to be on course to the target
-        return new PVector((float) cos(angle) * speed, (float) sin(angle) * speed);
-    }
-
-    @Override
-    public void draw() {
-        parent.image(sprite, 0, 0, sprite.width, sprite.height);
+    BasicMissile(PApplet parent, int x, int y) {
+        super(parent,
+              new PVector(x, y),
+              new PVector(WIDTH, HEIGHT),
+              new PhysicsInfo(new PVector(0, 0), MASS, ELASTICITY, SPEED),
+              MISSILE_PNG);
     }
 }

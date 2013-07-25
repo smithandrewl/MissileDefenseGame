@@ -22,59 +22,34 @@
 
 package org.missiledefense;
 
-import hermes.hshape.Rectangle;
-import hermes.physics.MassedBeing;
-import processing.core.PApplet;
-import processing.core.PImage;
 import processing.core.PVector;
 
-import static java.lang.Math.*;
+class PhysicsInfo {
+    private final PVector initVel;
+    private final int     mass;
+    private final int     elasticity;
+    private final int     speed;
 
-/**
- * User: andrew
- * Date: 7/13/13
- * Time: 7:02 PM
- */
-class Missile extends MassedBeing {
-
-    private final PApplet parent;
-    private final PImage sprite;
-    private final int    speed;
-
-    private PVector target;
-    private float   angle;
-
-    Missile(PApplet parent, PVector location, PVector size, PhysicsInfo physicsInfo, String imgPath)  {
-        super(new Rectangle(location.x, location.y, size.x, size.y),
-              physicsInfo.getInitVel(),
-              physicsInfo.getMass(),
-              physicsInfo.getElasticity());
-
-        speed       = physicsInfo.getSpeed();
-        this.parent = parent;
-        target      = null;
-        sprite      = parent.loadImage(imgPath);
+    public PhysicsInfo(PVector initVel, int mass, int elasticity, int speed) {
+        this.initVel    = initVel;
+        this.mass       = mass;
+        this.elasticity = elasticity;
+        this.speed      = speed;
     }
 
-    public void launch(PVector target) {
-        this.target = target;
-
-        // Update the velocity with the correction
-        setVelocity(getUpdatedVector());
+    public PVector getInitVel() {
+        return initVel;
     }
 
-    PVector getUpdatedVector() {
-        PVector targetVector = new PVector(target.x - getX(), target.y - getY());
-
-        // Get the angle(in degrees) of  the current vector and the target vector
-        angle = (float) atan2(targetVector.y, targetVector.x);
-
-        // Amount to change the velocity by to be on course to the target
-        return new PVector((float) cos(angle) * speed, (float) sin(angle) * speed);
+    public int getMass() {
+        return mass;
     }
 
-    @Override
-    public void draw() {
-        parent.image(sprite, 0, 0, sprite.width, sprite.height);
+    public int getElasticity() {
+        return elasticity;
+    }
+
+    public int getSpeed() {
+        return speed;
     }
 }
