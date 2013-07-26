@@ -49,7 +49,6 @@ public class Main extends PApplet {
         Hermes.setPApplet(this);
 
         currentWorld = new GameWorld(this, PORT_IN, PORT_OUT);
-        currentWorld.setup();
         currentWorld.start();
     }
 
