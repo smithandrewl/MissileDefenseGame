@@ -24,6 +24,7 @@ package org.missiledefense;
 
 import hermes.Group;
 import hermes.World;
+import hermes.hshape.HShape;
 import processing.core.PApplet;
 
 /**
@@ -51,5 +52,15 @@ class UfoGroup extends Group<Ufo> {
         add(ufo);
 
         return ufo;
+    }
+
+    public Ufo getAt(int x, int y) {
+        for(Ufo ufo : getObjects()) {
+            HShape shape = ufo.getShape();
+
+            if(shape.contains(x, y)) return ufo;
+        }
+
+        return null;
     }
 }
