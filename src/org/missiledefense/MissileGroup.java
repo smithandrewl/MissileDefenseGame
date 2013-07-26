@@ -65,6 +65,7 @@ class MissileGroup extends Group<Missile> {
                              || (position.y < 0);
 
             if(offScreen) {
+                ((GameWorld) _world).newEscapee();
                 _world.delete(missile);
             }
         }
@@ -103,8 +104,7 @@ class MissileGroup extends Group<Missile> {
                Missile missile = addBasicMissile((size.width / 2) + 51, size.height);
 
                missile.launch(new PVector(m.getX(), m.getY()));
-               ((GameWorld)_world).newLaunch();
-
+               ((GameWorld) _world).newLaunch();
                player.rewind();
                player.play();
 

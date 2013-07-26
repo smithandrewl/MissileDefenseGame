@@ -42,8 +42,17 @@ class GameWorld extends World {
     private final UfoGroup       ufos;
     private final ExplosionGroup explosions;
 
-    private int   hits;
-    private int   launches;
+    private int hits;
+    private int escaped;
+    private int launched;
+
+    int getLaunched() {
+        return launched;
+    }
+
+    void newLaunch() {
+        launched++;
+    }
 
     int getHits() {
         return hits;
@@ -57,25 +66,25 @@ class GameWorld extends World {
         return hits * 10;
     }
 
-    int getLaunches() {
-        return launches;
+    int getEscaped() {
+        return escaped;
     }
 
-    public void newLaunch() {
-        launches++;
+    public void newEscapee() {
+        escaped++;
     }
 
     double getAccuracy() {
         //Convert to doubles for a cast-free division
         double  hits        = this.hits;
-        double  launches    = this.launches;
-        boolean firstLaunch = launches == 0;
+        double  total       = escaped + hits;
+        boolean firstLaunch = total == 0;
 
         // return 0 if this is the first launch
         // to avoid a divide by zero
         if(firstLaunch) { return 0; }
 
-        return hits / launches;
+        return hits / total;
     }
 
     GameWorld(PApplet parent, int portIn, int portOut) {
@@ -118,9 +127,9 @@ class GameWorld extends World {
         parent.image(silo, 0, 0);
 
         // Render the HUD
-        parent.text(String.format("Score: %s", getScore()), 10, 10);
-        parent.text(String.format("Launched: %s", getLaunches()), 10, 25);
+        parent.text(String.format("Score: %s",    getScore()), 10, 10);
+        parent.text(String.format("Launched: %s", getLaunched()), 10, 25);
         parent.text(String.format("Accuracy: %s", MessageFormat.format("{0,number,#.##%}", getAccuracy())), 10, 40);
-        parent.text(String.format("Hits: %s", getHits()), 10, 55);
+        parent.text(String.format("Hits: %s",     getHits()), 10, 55);
     }
 }
