@@ -22,74 +22,39 @@
 
 package org.missiledefense;
 
-import hermes.hshape.Rectangle;
-import hermes.physics.MassedBeing;
 import processing.core.PApplet;
-import processing.core.PImage;
 import processing.core.PVector;
-
-import static java.lang.Math.*;
 
 /**
  * User: andrew
- * Date: 7/13/13
- * Time: 7:02 PM
+ * Date: 7/25/13
+ * Time: 8:02 PM
  */
-class Missile extends MassedBeing {
+public class GuidedMissile extends Missile {
 
-    private final PApplet parent;
-    private final PImage sprite;
-    private final int    speed;
+    private static int WIDTH      = 19;
+    private static int HEIGHT     = 49;
+    private static int MASS       = 01;
+    private static int ELASTICITY = 01;
+    private static int SPEED      = 300;
+    private static int INIT_X_VEL = 00;
+    private static int INIT_Y_VEL = 00;
 
-    private PVector target;
-    private float   angle;
+    private static String IMG_PATH = "missile.png";
 
-    Missile(PApplet parent, PVector location, PVector size, PhysicsInfo physicsInfo, String imgPath)  {
-        super(new Rectangle(location.x, location.y, size.x, size.y),
-              physicsInfo.getInitVel(),
-              physicsInfo.getMass(),
-              physicsInfo.getElasticity());
+    GuidedMissile(PApplet parent, int x, int y) {
 
-        speed       = physicsInfo.getSpeed();
-        this.parent = parent;
-        target      = null;
-        sprite      = parent.loadImage(imgPath);
-    }
-
-    public void launch(PVector target) {
-        this.target = target;
-
-        // Update the velocity with the correction
-        setVelocity(getUpdatedVector());
-    }
-
-    PVector getUpdatedVector() {
-        PVector targetVector = new PVector(target.x - getX(), target.y - getY());
-
-        // Get the angle(in degrees) of  the current vector and the target vector
-        angle = (float) atan2(targetVector.y, targetVector.x);
-
-        // Amount to change the velocity by to be on course to the target
-        return new PVector((float) cos(angle) * speed, (float) sin(angle) * speed);
+        super(parent,
+              new PVector(x, y),
+              new PVector(WIDTH, HEIGHT),
+              new PhysicsInfo(new PVector(INIT_X_VEL, INIT_Y_VEL), MASS, ELASTICITY, SPEED),
+              IMG_PATH);
     }
 
     @Override
     protected void update() {
         super.update();
 
-
-    }
-
-    @Override
-    public void draw() {
-        parent.pushMatrix();
-
-        // The original missile angle(90 degrees) plus the angle of correction
-        parent.rotate(parent.radians(90));
-        parent.rotate(angle);
-
-        parent.image(sprite, 0, 0, sprite.width, sprite.height);
-
-        parent.popMatrix();
+        setVelocity(getUpdatedVector());
     }
 }

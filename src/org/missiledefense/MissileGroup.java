@@ -70,8 +70,16 @@ class MissileGroup extends Group<Missile> {
         }
     }
 
-    Missile addMissile(int x, int y) {
+    Missile addBasicMissile(int x, int y) {
         Missile missile = new BasicMissile(parent, x, y);
+
+        _world.register(missile);
+        add(missile);
+
+        return missile;
+    }
+    Missile addGuidedMissile(int x, int y) {
+        Missile missile = new GuidedMissile(parent, x, y);
 
         _world.register(missile);
         add(missile);
@@ -92,7 +100,7 @@ class MissileGroup extends Group<Missile> {
        if(dt > 100) {
            if(m.getAction() == POCodes.Click.RELEASED) {
                Dimension size  = parent.getSize();
-               Missile missile = addMissile((size.width / 2) + 51, size.height);
+               Missile missile = addBasicMissile((size.width / 2) + 51, size.height);
 
                missile.launch(new PVector(m.getX(), m.getY()));
                ((GameWorld)_world).newLaunch();
