@@ -23,10 +23,14 @@
 package org.missiledefense;
 
 import hermes.World;
+import hermes.postoffice.MouseMessage;
+import hermes.postoffice.MouseSubscriber;
 import hermes.postoffice.POCodes;
 import processing.core.PApplet;
 import processing.core.PImage;
+import processing.core.PVector;
 
+import java.awt.*;
 import java.text.MessageFormat;
 
 /**
@@ -34,7 +38,7 @@ import java.text.MessageFormat;
  * Date: 7/13/13
  * Time: 6:52 PM
  */
-class GameWorld extends World {
+class GameWorld extends World implements MouseSubscriber {
     private final PApplet        parent;
     private final PImage         background;
     private final PImage         silo;
@@ -42,15 +46,17 @@ class GameWorld extends World {
     private final UfoGroup       ufos;
     private final ExplosionGroup explosions;
 
-    private int hits;
-    private int escaped;
-    private int launched;
+    private int  hits;
+    private int  escaped;
+    private int  launched;
+    private long lastLaunch;
 
     int getLaunched() {
         return launched;
     }
 
     void newLaunch() {
+        missiles.playSound();
         launched++;
     }
 
@@ -117,7 +123,7 @@ class GameWorld extends World {
         ufos.addUfo(300, 300);
         ufos.addUfo(300, 450);
 
-        subscribe(missiles, POCodes.Button.LEFT);
+        subscribe(this, POCodes.Button.LEFT);
     }
 
     @Override
@@ -131,5 +137,35 @@ class GameWorld extends World {
         parent.text(String.format("Launched: %s", getLaunched()), 10, 25);
         parent.text(String.format("Accuracy: %s", MessageFormat.format("{0,number,#.##%}", getAccuracy())), 10, 40);
         parent.text(String.format("Hits: %s",     getHits()), 10, 55);
+    }
+
+    @Override
+    public void receive(MouseMessage m) {
+        long currentTime = System.currentTimeMillis();
+
+        // The amount of time since the last left mouse button release
+        long dt = currentTime - lastLaunch;
+
+        // To prevent a single event from firing 4 times (it does),
+        // ignore events within 100 milliseconds of each other.
+        if(dt > 100) {
+            if(m.getAction() == POCodes.Click.RELEASED) {
+                Dimension size  = parent.getSize();
+                Missile missile;
+                Ufo ufo = ufos.getAt(m.getX(), m.getY());
+
+                if(ufo != null) {
+                    missile = missiles.addGuidedMissile((size.width / 2) + 51, size.height);
+                    missile.launch(ufo.getPosition());
+                } else {
+                    missile = missiles.addBasicMissile((size.width / 2) + 51, size.height);
+                    missile.launch(new PVector(m.getX(), m.getY()));
+                }
+
+                newLaunch();
+
+                lastLaunch = currentTime;
+            }
+        }
     }
 }

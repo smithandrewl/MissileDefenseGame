@@ -25,8 +25,6 @@ package org.missiledefense;
 import ddf.minim.AudioPlayer;
 import ddf.minim.Minim;
 import hermes.Group;
-import hermes.postoffice.MouseMessage;
-import hermes.postoffice.POCodes;
 import processing.core.PApplet;
 import processing.core.PVector;
 
@@ -41,8 +39,6 @@ class MissileGroup extends Group<Missile> {
     private final PApplet     parent;
     private final Dimension   screenSize;
     private final AudioPlayer player;
-
-    private long lastLaunch;
 
     MissileGroup(GameWorld w, PApplet parent) {
         super(w);
@@ -79,6 +75,7 @@ class MissileGroup extends Group<Missile> {
 
         return missile;
     }
+
     Missile addGuidedMissile(int x, int y) {
         Missile missile = new GuidedMissile(parent, x, y);
 
@@ -88,28 +85,8 @@ class MissileGroup extends Group<Missile> {
         return missile;
     }
 
-    @Override
-    public void receive(MouseMessage m) {
-
-       long currentTime = System.currentTimeMillis();
-
-       // The amount of time since the last left mouse button release
-       long dt = currentTime - lastLaunch;
-
-       // To prevent a single event from firing 4 times (it does),
-       // ignore events within 100 milliseconds of each other.
-       if(dt > 100) {
-           if(m.getAction() == POCodes.Click.RELEASED) {
-               Dimension size  = parent.getSize();
-               Missile missile = addBasicMissile((size.width / 2) + 51, size.height);
-
-               missile.launch(new PVector(m.getX(), m.getY()));
-               ((GameWorld) _world).newLaunch();
-               player.rewind();
-               player.play();
-
-               lastLaunch = currentTime;
-           }
-       }
+    void playSound() {
+        player.rewind();
+        player.play();
     }
 }
