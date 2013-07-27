@@ -72,10 +72,6 @@ class GameWorld extends World implements MouseSubscriber {
         return hits * 10;
     }
 
-    int getEscaped() {
-        return escaped;
-    }
-
     public void newEscapee() {
         escaped++;
     }

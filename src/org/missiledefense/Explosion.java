@@ -35,14 +35,13 @@ import processing.core.PVector;
  * Time: 4:33 PM
  */
 public class Explosion extends Being {
-    private static int WIDTH    = 68;
-    private static int HEIGHT   = 95;
-    private static int LIFETIME = 1000;
+    private static final int WIDTH    = 68;
+    private static final int HEIGHT   = 95;
+    private static final int LIFETIME = 1000;
 
     private boolean expired;
-    private long created;
 
-    private final Animation      animation;
+    private final long           created;
     private final AnimatedSprite sprite;
     private final PApplet        parent;
 
@@ -56,7 +55,6 @@ public class Explosion extends Being {
         created = System.currentTimeMillis();
 
         this.parent    = parent;
-        this.animation = animation;
 
         sprite = new AnimatedSprite();
         sprite.addAnimation(animation);

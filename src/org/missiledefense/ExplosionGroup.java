@@ -52,9 +52,9 @@ import processing.core.PVector;
  * Date: 7/25/13
  * Time: 4:48 PM
  */
-public class ExplosionGroup extends Group<Explosion> {
-    private Animation animation;
-    private final PApplet parent;
+class ExplosionGroup extends Group<Explosion> {
+    private final Animation animation;
+    private final PApplet   parent;
 
     public ExplosionGroup(GameWorld world, PApplet parent) {
         super(world);

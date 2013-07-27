@@ -74,18 +74,11 @@ class Missile extends MassedBeing {
     }
 
     @Override
-    protected void update() {
-        super.update();
-
-
-    }
-
-    @Override
     public void draw() {
         parent.pushMatrix();
 
         // The original missile angle(90 degrees) plus the angle of correction
-        parent.rotate(parent.radians(90));
+        parent.rotate(PApplet.radians(90));
         parent.rotate(angle);
 
         parent.image(sprite, 0, 0, sprite.width, sprite.height);

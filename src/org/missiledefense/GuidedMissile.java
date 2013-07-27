@@ -30,17 +30,16 @@ import processing.core.PVector;
  * Date: 7/25/13
  * Time: 8:02 PM
  */
-public class GuidedMissile extends Missile {
+class GuidedMissile extends Missile {
 
-    private static int WIDTH      = 19;
-    private static int HEIGHT     = 49;
-    private static int MASS       = 01;
-    private static int ELASTICITY = 01;
-    private static int SPEED      = 800;
-    private static int INIT_X_VEL = 00;
-    private static int INIT_Y_VEL = 00;
-
-    private static String IMG_PATH = "missile.png";
+    private static final int    WIDTH      = 19;
+    private static final int    HEIGHT     = 49;
+    private static final int    MASS       = 1;
+    private static final int    ELASTICITY = 1;
+    private static final int    SPEED      = 800;
+    private static final int    INIT_X_VEL = 0;
+    private static final int    INIT_Y_VEL = 0;
+    private static final String IMG_PATH   = "missile.png";
 
     GuidedMissile(PApplet parent, int x, int y) {
 
