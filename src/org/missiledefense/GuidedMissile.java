@@ -36,7 +36,7 @@ public class GuidedMissile extends Missile {
     private static int HEIGHT     = 49;
     private static int MASS       = 01;
     private static int ELASTICITY = 01;
-    private static int SPEED      = 300;
+    private static int SPEED      = 800;
     private static int INIT_X_VEL = 00;
     private static int INIT_Y_VEL = 00;
 
