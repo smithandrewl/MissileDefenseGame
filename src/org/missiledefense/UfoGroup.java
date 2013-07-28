@@ -43,15 +43,21 @@ class UfoGroup extends Group<Ufo> {
 
     @Override
     public void update() {
+
     }
 
-    public Ufo addUfo(int x, int y) {
-        Ufo ufo = new Ufo(parent, x, y);
+
+    public Ufo addUfo(int x, int y, int xVel, int yVel) {
+        Ufo ufo = new Ufo(parent, x, y, xVel, yVel);
 
         _world.register(ufo);
         add(ufo);
 
         return ufo;
+    }
+
+    public Ufo addUfo(int x, int y) {
+        return addUfo(x, y, 0, 0);
     }
 
     public Ufo getAt(int x, int y) {
