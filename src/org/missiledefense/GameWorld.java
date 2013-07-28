@@ -32,6 +32,7 @@ import processing.core.PVector;
 
 import java.awt.*;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 
 /**
  * User: andrew
@@ -39,6 +40,11 @@ import java.text.MessageFormat;
  * Time: 6:52 PM
  */
 class GameWorld extends World implements MouseSubscriber {
+    public static final int UFO_COUNT   = 3;
+    public static final int LOWEST_UFO  = 650;
+    public static final int SLOWEST_UFO = 100;
+    public static final int FASTEST_UFO = 400;
+
     private final PApplet        parent;
     private final PImage         background;
     private final PImage         silo;
@@ -112,14 +118,34 @@ class GameWorld extends World implements MouseSubscriber {
 
     @Override
     public void setup() {
-        ufos.addUfo(50, 50);
-        ufos.addUfo(50, 150);
-        ufos.addUfo(150, 150);
-        ufos.addUfo(150, 300);
-        ufos.addUfo(300, 300);
-        ufos.addUfo(300, 450);
-
         subscribe(this, POCodes.Button.LEFT);
+    }
+
+    @Override
+    public void update() {
+        super.update();
+
+        Dimension screenSize = parent.getSize();
+        ArrayList<Ufo> ufoList = ufos.getObjects();
+
+        if(ufos.size() < 2) {
+            ufos.addRandomUfos(UFO_COUNT, 0, screenSize.width / 8, 0, LOWEST_UFO, SLOWEST_UFO, FASTEST_UFO);
+        } else {
+            for(Ufo ufo : ufoList) {
+                if(isOffscreen(ufo.getX(), ufo.getY())) {
+                    delete(ufo);
+                }
+            }
+        }
+    }
+
+    private boolean isOffscreen(float x, float y) {
+        Dimension screenSize = parent.getSize();
+
+        boolean xOffscreen = (x < 0) || (x > screenSize.getWidth());
+        boolean yOffscreen = (y < 0) || (y > screenSize.getHeight());
+
+        return xOffscreen || yOffscreen;
     }
 
     @Override
@@ -128,11 +154,16 @@ class GameWorld extends World implements MouseSubscriber {
         super.draw();
         parent.image(silo, 0, 0);
 
+        String accuracyStr = MessageFormat.format("{0,number,#.##%}", getAccuracy());
+
+        int x        = 10;
+        int ySpacing = 15;
+
         // Render the HUD
-        parent.text(String.format("Score: %s",    getScore()), 10, 10);
-        parent.text(String.format("Launched: %s", getLaunched()), 10, 25);
-        parent.text(String.format("Accuracy: %s", MessageFormat.format("{0,number,#.##%}", getAccuracy())), 10, 40);
-        parent.text(String.format("Hits: %s",     getHits()), 10, 55);
+        parent.text(String.format("Score: %s",    getScore()),    x, ySpacing * 1);
+        parent.text(String.format("Launched: %s", getLaunched()), x, ySpacing * 2);
+        parent.text(String.format("Accuracy: %s", accuracyStr),   x, ySpacing * 3);
+        parent.text(String.format("Hits: %s",     getHits()),     x, ySpacing * 4);
     }
 
     @Override

@@ -23,9 +23,10 @@
 package org.missiledefense;
 
 import hermes.Group;
-import hermes.World;
 import hermes.hshape.HShape;
 import processing.core.PApplet;
+
+import java.util.Random;
 
 /**
  * User: andrew
@@ -34,18 +35,28 @@ import processing.core.PApplet;
  */
 class UfoGroup extends Group<Ufo> {
     private final PApplet parent;
+    private final Random  random;
 
-    UfoGroup(World w, PApplet parent) {
+    UfoGroup(GameWorld w, PApplet parent) {
         super(w);
 
         this.parent = parent;
+        this.random = new Random();
     }
 
-    @Override
-    public void update() {
-
+    public void addRandomUfos(int count, int minX, int maxX, int minY, int maxY, int minXVel, int maxXVel) {
+        for(int i = 0; i < count; i++) {
+            addRandomUfo(minX, maxX, minY, maxY, minXVel, maxXVel);
+        }
     }
 
+    public Ufo addRandomUfo(int minX, int maxX, int minY, int maxY, int minXVel, int maxXVel) {
+        int y    = random.nextInt((maxY    - minY))   + minY;
+        int x    = random.nextInt((maxX    - minX))   + minX;
+        int xVel = random.nextInt((maxXVel - minXVel) + minXVel);
+
+        return addUfo(x, y, xVel, 0);
+    }
 
     public Ufo addUfo(int x, int y, int xVel, int yVel) {
         Ufo ufo = new Ufo(parent, x, y, xVel, yVel);
