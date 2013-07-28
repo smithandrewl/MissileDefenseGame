@@ -41,8 +41,12 @@ public class Ufo extends MassedBeing {
     private final PImage  sprite;
 
     public Ufo(PApplet parent, int x, int y) {
+        this(parent, x, y, 0, 0);
+    }
+
+    public Ufo(PApplet parent, int x, int y, int xVel, int yVel) {
         super(new Rectangle(x, y, WIDTH, HEIGHT),
-              new PVector(0, 0), 10, 10);
+              new PVector(xVel, yVel), 10, 10);
 
         this.parent = parent;
         this.sprite = parent.loadImage("ufo_pr.png");
