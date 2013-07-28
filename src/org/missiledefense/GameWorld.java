@@ -23,9 +23,7 @@
 package org.missiledefense;
 
 import hermes.World;
-import hermes.postoffice.MouseMessage;
-import hermes.postoffice.MouseSubscriber;
-import hermes.postoffice.POCodes;
+import hermes.postoffice.*;
 import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PVector;
@@ -39,7 +37,7 @@ import java.util.ArrayList;
  * Date: 7/13/13
  * Time: 6:52 PM
  */
-class GameWorld extends World implements MouseSubscriber {
+class GameWorld extends World implements MouseSubscriber, KeySubscriber {
     public static final int UFO_COUNT   = 3;
     public static final int LOWEST_UFO  = 650;
     public static final int SLOWEST_UFO = 100;
@@ -118,6 +116,7 @@ class GameWorld extends World implements MouseSubscriber {
 
     @Override
     public void setup() {
+        subscribe(this, POCodes.Key.SPACE);
         subscribe(this, POCodes.Button.LEFT);
     }
 
@@ -164,6 +163,8 @@ class GameWorld extends World implements MouseSubscriber {
         parent.text(String.format("Launched: %s", getLaunched()), x, ySpacing * 2);
         parent.text(String.format("Accuracy: %s", accuracyStr),   x, ySpacing * 3);
         parent.text(String.format("Hits: %s",     getHits()),     x, ySpacing * 4);
+
+        parent.text("Press spacebar for missile burst", 10, ySpacing * 6);
     }
 
     @Override
@@ -192,6 +193,18 @@ class GameWorld extends World implements MouseSubscriber {
                 newLaunch();
 
                 lastLaunch = currentTime;
+            }
+        }
+    }
+
+    @Override
+    public void receive(KeyMessage m) {
+       if(m.isPressed()) {
+            Dimension size = parent.getSize();
+
+            for(Ufo ufo : ufos.getObjects()) {
+                Missile missile = missiles.addGuidedMissile((size.width / 2) + 51, size.height);
+                missile.launch(ufo.getPosition());
             }
         }
     }
