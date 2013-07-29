@@ -212,6 +212,8 @@ class GameWorld extends World implements MouseSubscriber, KeySubscriber {
                 Missile missile = missiles.addGuidedMissile((size.width / 2) + 51, size.height);
                 missile.launch(ufo.getPosition());
             }
+
+           launched += ufos.size();
         }
     }
 }
