@@ -38,8 +38,8 @@ import java.util.ArrayList;
  * Time: 6:52 PM
  */
 class GameWorld extends World implements MouseSubscriber, KeySubscriber {
-    public static final int UFO_COUNT   = 3;
-    public static final int LOWEST_UFO  = 650;
+    public static final int UFO_COUNT   = 4;
+    public static final int LOWEST_UFO  = 427 ;
     public static final int SLOWEST_UFO = 100;
     public static final int FASTEST_UFO = 400;
 
