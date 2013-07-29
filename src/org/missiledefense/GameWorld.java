@@ -158,13 +158,19 @@ class GameWorld extends World implements MouseSubscriber, KeySubscriber {
         int x        = 10;
         int ySpacing = 15;
 
-        // Render the HUD
-        parent.text(String.format("Score: %s",    getScore()),    x, ySpacing * 1);
-        parent.text(String.format("Launched: %s", getLaunched()), x, ySpacing * 2);
-        parent.text(String.format("Accuracy: %s", accuracyStr),   x, ySpacing * 3);
-        parent.text(String.format("Hits: %s",     getHits()),     x, ySpacing * 4);
+        parent.textSize(14);
 
-        parent.text("Press spacebar for missile burst", 10, ySpacing * 6);
+        parent.text("Click mouse for single fire", 10, ySpacing * 1);
+        parent.text("Press spacebar for missile burst", 10, ySpacing * 2);
+
+        // Render the HUD
+        parent.text(String.format("Score: %s",    getScore()),    x, ySpacing * 4);
+        parent.text(String.format("Launched: %s", getLaunched()), x, ySpacing * 5);
+        parent.text(String.format("Accuracy: %s", accuracyStr),   x, ySpacing * 6);
+        parent.text(String.format("Hits: %s",     getHits()),     x, ySpacing * 7);
+
+        parent.textSize(10);
+
     }
 
     @Override
